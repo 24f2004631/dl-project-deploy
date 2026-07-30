@@ -1,0 +1,10 @@
+[project]
+name = "dl-genai-project-26-t2-hg"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "onnxruntime>=1.28.0",
+    "streamlit>=1.60.0",
+]
