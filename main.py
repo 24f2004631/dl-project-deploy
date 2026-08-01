@@ -5,7 +5,9 @@ from classes import Query, Model
 # Runtime
 model = Model(MODEL_PATH, VOCAB_PATH)
 
-st.title("Smart MCQ Predictor")
+st.title("Scratch MCQ Model", text_alignment="left")
+st.caption("Created by Mohit Anand | Roll: 24f2004631")
+st.text("The Scratch MCQ model is as name suggests build from scratch using _RNN_ like _LSTM_ at its core to represent the prompts and its subsequent options as semantic embedding representation which will be further fed into a feed-forward network to get our desired result.")
 
 @st.dialog("Create a request...", width='large')
 def get_input():
@@ -38,16 +40,25 @@ def get_input():
 
 if "query" in st.session_state:
     query = st.session_state["query"]
-    st.header(query.prompt)
+    cont = st.container(border=True)
+    cont.subheader(query.prompt)
     ans = model.predict(query)
     for opt in ans[:query.prediction_count]:
         if query.option_text:
-            st.text(f"{opt}: {query.options[opt]}")
+            cont.text(f"{opt}: {query.options[opt]}")
         else:
-            st.text(opt)
+            cont.text(opt)
 
-create = st.button("Create a Request...", type="primary")
+create = st.button("Create a Request...", type="primary", width="stretch", shortcut="Ctrl+Alt+N")
 if create:
     get_input()
 
+
+st.divider()
+st.subheader("Metrics")
+col1, col2, col3 = st.columns(3)
+col1.metric("Map@3", "0.96", help="Map@3 score calculated on validation dataset.")
+col2.metric("Accuracy", "0.95", help="Accuracy score calculated on validation dataset.") 
+col3.metric("F1 Macro", "0.94", help="F1 Macro score calculated on validation dataset.") 
+st.divider()
 
